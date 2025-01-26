@@ -1,0 +1,47 @@
+{
+  "Actions": [
+    {
+      "Icon": "Images/icon",
+      "Name": "Autoclicker",
+      "States": [
+        {
+          "Image": "Images/pluginAction",
+          "TitleAlignment": "middle",
+          "FontSize": "12"
+        }
+      ],
+      "Controllers": [ "Keypad", "Encoder" ],
+      "Encoder": {
+        "layout": "DialLayout.json",
+        "TriggerDescription": {
+          "Rotate": "Increase/Decrease",
+          "Push": "Toggle mute"
+        }
+      },
+      "SupportedInMultiActions": false,
+      "Tooltip": "TODO_ENTER_TOOLTIP",
+      "UUID": "Autoclicker.autoclickeraction",
+      "PropertyInspectorPath": "PropertyInspector/PluginActionPI.html"
+    }
+  ],
+  "Author": "David Golunski",
+  "Name": "Autoclicker",
+  "Description": "A Plugin that allows you to configure and activate an autoclicker",
+  "Icon": "Images/pluginIcon",
+  "URL": "https://TODO_ENTER_YOUR_HOMEPAGE.com",
+  "Version": "1.0.0",
+  "CodePath": "com.davidgolunski.autoclicker",
+  "Category": "Custom",
+  "CategoryIcon": "Images/categoryIcon",
+  "OS": [
+    {
+      "Platform": "windows",
+      "MinimumVersion": "10"
+    }
+  ],
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "6.4"
+  },
+  "UUID": "com.davidgolunski.autoclicker"
+}
