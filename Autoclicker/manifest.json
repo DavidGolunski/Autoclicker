@@ -1,11 +1,21 @@
 {
   "Actions": [
     {
-      "Icon": "Images/icon",
+      "Icon": "Actions/ActivateAutoclicker/Click",
       "Name": "Autoclicker",
       "States": [
         {
-          "Image": "Images/pluginAction",
+          "Image": "Actions/ActivateAutoclicker/Click",
+          "TitleAlignment": "middle",
+          "FontSize": "12"
+        },
+        {
+          "Image": "Actions/ActivateAutoclicker/Click Active",
+          "TitleAlignment": "middle",
+          "FontSize": "12"
+        },
+        {
+          "Image": "Actions/ActivateAutoclicker/Click Selected Active",
           "TitleAlignment": "middle",
           "FontSize": "12"
         }
@@ -15,24 +25,25 @@
         "layout": "DialLayout.json",
         "TriggerDescription": {
           "Rotate": "Increase/Decrease",
-          "Push": "Toggle mute"
+          "Push": "Toggle Autoclicker"
         }
       },
+      "DisableAutomaticStates": true,
       "SupportedInMultiActions": false,
-      "Tooltip": "TODO_ENTER_TOOLTIP",
+      "Tooltip": "Enables and Disables an autoclicker",
       "UUID": "Autoclicker.autoclickeraction",
-      "PropertyInspectorPath": "PropertyInspector/PluginActionPI.html"
+      "PropertyInspectorPath": "Actions/ActivateAutoclicker/AutoclickerAction.html"
     }
   ],
   "Author": "David Golunski",
   "Name": "Autoclicker",
   "Description": "A Plugin that allows you to configure and activate an autoclicker",
-  "Icon": "Images/pluginIcon",
+  "Icon": "Images/Click500",
   "URL": "https://TODO_ENTER_YOUR_HOMEPAGE.com",
   "Version": "1.0.0",
   "CodePath": "com.davidgolunski.autoclicker",
-  "Category": "Custom",
-  "CategoryIcon": "Images/categoryIcon",
+  "Category": "Autoclicker",
+  "CategoryIcon": "Actions/ActivateAutoclicker/Click",
   "OS": [
     {
       "Platform": "windows",

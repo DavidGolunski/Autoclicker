@@ -17,17 +17,21 @@ namespace Autoclicker {
 
         private class AutoclickerSettings {
 
-            [JsonProperty(PropertyName = "delay")]
-            public int Delay { get; set; }
+            [JsonProperty(PropertyName = "delayString")]
+            public string DelayString { get; set; }
+            public int DelayInMilliseconds { get; set; }
+
+            [JsonProperty(PropertyName = "selectedButton")]
+            public string SelectedButton { get; set; }
 
             public AutoclickerSettings() {
-                Delay = 1;
+                DelayString = "1";
             }
 
         }
 
 
-        private AutoclickerSettings localSettings;
+        private readonly AutoclickerSettings localSettings;
 
         public AutoclickerAction(SDConnection connection, InitialPayload payload) : base(connection, payload) {
             if(payload.Settings == null || payload.Settings.Count == 0) {
@@ -49,11 +53,10 @@ namespace Autoclicker {
 
 
         public override void DialRotate(DialRotatePayload payload) {
-            Logger.Instance.LogMessage(TracingLevel.INFO, $"Dial Rotated: {payload.Ticks}");
 
-            localSettings.Delay += payload.Ticks;
-            if(localSettings.Delay < 0) {
-                localSettings.Delay = 0;
+            localSettings.DelayInMilliseconds += payload.Ticks;
+            if(localSettings.DelayInMilliseconds < 0) {
+                localSettings.DelayInMilliseconds = 0;
             }
 
             SaveSettings();
@@ -87,6 +90,10 @@ namespace Autoclicker {
             else {
                 Autoclicker.Instance.Start();
             }
+        }
+
+        private void UpdateVisuals() {
+
         }
 
         private Task SaveSettings() {
