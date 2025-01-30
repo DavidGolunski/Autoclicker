@@ -1,16 +1,70 @@
-2025-01-26 10:50:44.8932|DEBUG|Autoclicker|1|Logger Initialized
-2025-01-26 10:50:44.9098|INFO|Autoclicker|1|Plugin [Autoclicker] Loading - 3 Actions Found
-2025-01-26 10:53:42.3536|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 10:53:42.3727|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 3 Actions Found
-2025-01-26 10:53:53.2833|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 10:53:53.3014|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 3 Actions Found
-2025-01-26 21:07:14.0920|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 21:07:14.1152|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
-2025-01-26 23:27:06.0478|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 23:27:06.0671|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
-2025-01-26 23:28:56.2760|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 23:28:56.2939|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
-2025-01-26 23:35:58.1112|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 23:35:58.1297|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
-2025-01-26 23:36:43.2669|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
-2025-01-26 23:36:43.2853|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 19:05:30.6295|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 19:05:30.6532|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:09:23.3281|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:09:23.3460|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:11:19.6791|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:11:19.6990|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:15:44.3402|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:15:44.3585|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:18:26.2860|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:18:26.3082|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:21:24.1739|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:21:24.1928|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:22:10.7562|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:22:10.7746|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:23:06.9238|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:23:06.9439|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:23:17.3457|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:23:17.3657|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:24:18.1801|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:24:18.2012|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:31:29.8844|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:31:29.9028|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:37:17.7113|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:37:17.7326|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:40:04.2972|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:40:04.3164|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:41:43.7817|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:41:43.8007|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:42:34.2409|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:42:34.2620|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:43:07.5696|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:43:07.5873|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:44:51.2864|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:44:51.3041|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 20:45:30.6748|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 20:45:30.6936|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:09:38.5264|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:09:38.5472|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:10:31.3603|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:10:31.3795|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:12:13.6057|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:12:13.6244|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:13:50.2679|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:13:50.2867|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:17:47.9618|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:17:47.9816|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:33:42.6477|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:33:42.6693|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:34:43.3407|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:34:43.3598|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:37:26.1368|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:37:26.1563|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:38:48.5770|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:38:48.5987|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:45:45.6008|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:45:45.6194|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:48:44.1453|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:48:44.1655|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:51:04.6453|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:51:04.6664|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:53:02.4112|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:53:02.4335|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:54:20.8116|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:54:20.8313|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:55:32.6458|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:55:32.6656|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:56:09.1472|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:56:09.1659|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found
+2025-01-30 21:56:59.6537|DEBUG|com.davidgolunski.autoclicker|1|Logger Initialized
+2025-01-30 21:56:59.6714|INFO|com.davidgolunski.autoclicker|1|Plugin [com.davidgolunski.autoclicker] Loading - 1 Actions Found

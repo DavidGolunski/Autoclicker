@@ -6,7 +6,7 @@ cd %1
 
 REM *** MAKE SURE THE FOLLOWING VARIABLES ARE CORRECT ***
 REM (Distribution tool be downloaded from: https://docs.elgato.com/sdk/plugins/packaging )
-SET OUTPUT_DIR="D:\source\repos\GoveeLightController\Plugin"
+SET OUTPUT_DIR="D:\source\repos\Autoclicker\Plugin"
 SET DISTRIBUTION_TOOL="C:\Users\david\AppData\Roaming\npm\DistributionTool.exe"
 SET STREAM_DECK_FILE="C:\Program Files\Elgato\StreamDeck\StreamDeck.exe"
 SET STREAM_DECK_LOAD_TIMEOUT=4

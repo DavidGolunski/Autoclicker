@@ -22,7 +22,7 @@
       ],
       "Controllers": [ "Keypad", "Encoder" ],
       "Encoder": {
-        "layout": "DialLayout.json",
+        "layout": "Actions/ActivateAutoclicker/AutoclickerDialLayout.json",
         "TriggerDescription": {
           "Rotate": "Increase/Decrease",
           "Push": "Toggle Autoclicker"
@@ -31,7 +31,7 @@
       "DisableAutomaticStates": true,
       "SupportedInMultiActions": false,
       "Tooltip": "Enables and Disables an autoclicker",
-      "UUID": "Autoclicker.autoclickeraction",
+      "UUID": "com.davidgolunski.autoclicker.autoclickeraction",
       "PropertyInspectorPath": "Actions/ActivateAutoclicker/AutoclickerAction.html"
     }
   ],

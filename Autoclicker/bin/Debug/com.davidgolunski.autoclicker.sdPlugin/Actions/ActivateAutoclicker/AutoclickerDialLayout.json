@@ -1,5 +1,5 @@
 {
-  "id": "sampleDial",
+  "id": "autoclickerDialLayout",
   "items": [
     {
       "key": "title",
@@ -14,27 +14,27 @@
     {
       "key": "icon",
       "type": "pixmap",
-      "rect": [ 16, 40, 48, 48 ]
+      "rect": [ 16, 40, 54, 54 ]
     },
     {
-      "key": "value",
+      "key": "button",
       "type": "text",
-      "rect": [ 76, 40, 108, 32 ],
+      "rect": [ 108, 38, 76, 24 ],
       "font": {
         "size": 24,
         "weight": 600
       },
-      "alignment": "right"
+      "alignment": "middle"
     },
     {
-      "key": "indicator",
-      "type": "gbar",
-      "rect": [ 76, 74, 108, 20 ],
-      "value": 0,
-      "subtype": 4,
-      "bar_h": 12,
-      "border_w": 0,
-      "bar_bg_c": "0:#427018,0.75:#705B1C,0.90:#702735,1:#702735"
+      "key": "delay",
+      "type": "text",
+      "rect": [ 108, 70, 76, 24 ],
+      "font": {
+        "size": 24,
+        "weight": 600
+      },
+      "alignment": "middle"
     }
   ]
 }

@@ -27,10 +27,6 @@ D:\source\repos\Autoclicker\Autoclicker\bin\Debug\Autoclicker.sdPlugin\System.Dr
 D:\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.AssemblyReference.cache
 D:\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CoreCompileInputs.cache
 D:\source\repos\Autoclicker\Autoclicker\obj\Debug\Autoclicker.csproj.CopyComplete
-D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\PropertyInspector\DialActionPI.html
-D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\PropertyInspector\PluginActionPI.html
-D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\PropertyInspector\PluginActionPI.js
-D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\DialLayout.json
 D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\manifest.json
 D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\CommandLine.dll
 D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\Newtonsoft.Json.dll
@@ -57,3 +53,4 @@ D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.
 D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\Actions\ActivateAutoclicker\Click.png
 D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\Images\Click500@2x.png
 D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\Images\Click500.png
+D:\source\repos\Autoclicker\Autoclicker\bin\Debug\com.davidgolunski.autoclicker.sdPlugin\Actions\ActivateAutoclicker\AutoclickerDialLayout.json
