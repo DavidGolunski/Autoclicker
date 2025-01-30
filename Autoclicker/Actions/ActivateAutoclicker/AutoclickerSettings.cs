@@ -16,6 +16,11 @@ namespace Autoclicker {
             get => int.TryParse(DelayString, out int result) ? result : 0;
         }
 
+        [JsonProperty(PropertyName = "realDelayString")]
+        public string RealDelayString {
+            get => DelayInMilliseconds.ToString() + " ms"; 
+        }
+
         [JsonProperty(PropertyName = "selectedButton")]
         public string SelectedButton { get; set; }
 

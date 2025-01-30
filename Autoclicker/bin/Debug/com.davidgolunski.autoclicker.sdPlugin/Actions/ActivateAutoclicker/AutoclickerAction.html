@@ -27,16 +27,22 @@
             <div class="sdpi-item-label">Button</div>
             <select class="sdpi-item-value sdProperty" setting="selectedButton" id="selectedButton" oninput="setSettings()">
                 <option value="LMB">Left Mouse Button</option>
+                <option value="MMB">Middle Mouse Button</option>
                 <option value="RMB">Right Mouse Button</option>
             </select>
         </div>
         <div class="sdpi-item">
-            <div class="sdpi-item-label">Delay in Milliseconds</div>
+            <div class="sdpi-item-label">Input Delay</div>
             <sdpi-textfield class="sdpi-item-value sdProperty" setting="delayString" id="delayString"
                             value="1" maxlength="4" required oninput="setSettings()">
             </sdpi-textfield>
         </div>
-
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Real Delay</div>
+            <div class="sdpi-item-value sdProperty sdHTML" style="font-size: 17px;" id="realDelayString">
+                1 ms
+            </div>
+        </div>
     </div>
 </body>
 </html>

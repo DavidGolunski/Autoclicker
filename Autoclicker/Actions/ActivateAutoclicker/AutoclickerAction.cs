@@ -1,5 +1,7 @@
 ﻿using BarRaider.SdTools;
+using BarRaider.SdTools.Events;
 using BarRaider.SdTools.Payloads;
+using BarRaider.SdTools.Wrappers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -40,9 +42,16 @@ namespace Autoclicker {
             }
             else {
                 this.localSettings = payload.Settings.ToObject<AutoclickerSettings>();
+
+                // if the selected Mouse Button is invalid, then set it to "LMB"
+                if(!(localSettings.SelectedButton == "LMB" || localSettings.SelectedButton == "MMB" || localSettings.SelectedButton == "RMB")) {
+                    localSettings.SelectedButton = "LMB";
+                }
+
             }
 
             Autoclicker.Instance.AddStatusChangedListener(UpdateVisuals);
+            Connection.OnPropertyInspectorDidAppear += OnPropertyInspectorOpened;
             UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.Delay);
         }
 
@@ -52,6 +61,7 @@ namespace Autoclicker {
             }
 
             Autoclicker.Instance.RemoveStatusChangedListener(UpdateVisuals);
+            Connection.OnPropertyInspectorDidAppear -= OnPropertyInspectorOpened;
         }
 
 
@@ -85,7 +95,7 @@ namespace Autoclicker {
             }
 
             UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.ActivatedActionIndex);
-
+         
             SaveSettings();
         }
 
@@ -107,13 +117,25 @@ namespace Autoclicker {
 
 
 
-
         public override void ReceivedSettings(ReceivedSettingsPayload payload) {
             Tools.AutoPopulateSettings(localSettings, payload.Settings);
 
+            // if the selected Mouse Button is invalid, then set it to "LMB"
+            if(!(localSettings.SelectedButton == "LMB" || localSettings.SelectedButton == "MMB" || localSettings.SelectedButton == "RMB")) {
+                localSettings.SelectedButton = "LMB";
+            }
+
             if(Autoclicker.Instance.IsRunning && Autoclicker.Instance.ActivatedActionIndex == index) {
                 Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
+                MouseButton selectedMouseButton = localSettings.SelectedButton switch {
+                    "MMB" => MouseButton.MMB,
+                    "RMB" => MouseButton.RMB,
+                    _ => MouseButton.LMB,
+                };
+                Autoclicker.Instance.SelectedButton = selectedMouseButton;
             }
+
+
             UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.ActivatedActionIndex);
 
             SaveSettings();
@@ -124,10 +146,16 @@ namespace Autoclicker {
         #region Private Methods
 
         private void ToggleAutoclicker() {
+            MouseButton selectedMouseButton = localSettings.SelectedButton switch {
+                "MMB" => MouseButton.MMB,
+                "RMB" => MouseButton.RMB,
+                _ => MouseButton.LMB,
+            };
 
             // if autoclicker is not running, start it
             if(!Autoclicker.Instance.IsRunning) {
                 Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
+                Autoclicker.Instance.SelectedButton = selectedMouseButton;
                 Autoclicker.Instance.Start(this.index);
                 return;
             }
@@ -141,64 +169,45 @@ namespace Autoclicker {
             // Autoclicker was already running, but it was started by a different action. Update the delay and activationIndex
             Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
             Autoclicker.Instance.ActivatedActionIndex = this.index;
+            Autoclicker.Instance.SelectedButton = selectedMouseButton;
             
         }
 
         // this method is subsribed to the Autoclicker Status Changed event and gets called automatically
         private async void UpdateVisuals(bool isRunning, int activationIndex) {
+            string imageFilePath;
+
             if(!isRunning) {
                 Connection.SetStateAsync(0).GetAwaiter().GetResult();
-
-                Bitmap img = ImageTools.GetBitmapFromFilePath("./Actions/ActivateAutoclicker/Click.png");
-                string imageString = Tools.ImageToBase64(img, true);
-                img.Dispose();
-
-                Dictionary<string, string> dkv = new Dictionary<string, string> {
-                    ["delay"] = localSettings.DelayInMilliseconds.ToString(),
-                    ["button"] = localSettings.SelectedButton,
-                    ["icon"] = imageString
-                };
-                await Connection.SetFeedbackAsync(dkv);
-
-                return;
+                imageFilePath = "./Actions/ActivateAutoclicker/Click.png";
             }
-
-            if(this.index == activationIndex) {
+            else if(this.index == activationIndex) {
                 Connection.SetStateAsync(2).GetAwaiter().GetResult();
-
-                Bitmap img = ImageTools.GetBitmapFromFilePath("./Actions/ActivateAutoclicker/Click Selected Active.png");
-                string imageString = Tools.ImageToBase64(img, true);
-                img.Dispose();
-
-                Dictionary<string, string> dkv = new Dictionary<string, string> {
-                    ["delay"] = localSettings.DelayInMilliseconds.ToString(),
-                    ["button"] = localSettings.SelectedButton,
-                    ["icon"] = imageString
-                };
-                await Connection.SetFeedbackAsync(dkv);
-                return;
+                imageFilePath = "./Actions/ActivateAutoclicker/Click Selected Active.png";
             }
             else {
                 Connection.SetStateAsync(1).GetAwaiter().GetResult();
-
-                Bitmap img = ImageTools.GetBitmapFromFilePath("./Actions/ActivateAutoclicker/Click Active.png");
-                string imageString = Tools.ImageToBase64(img, true);
-                img.Dispose();
-
-                Dictionary<string, string> dkv = new Dictionary<string, string> {
-                    ["delay"] = localSettings.DelayInMilliseconds.ToString(),
-                    ["button"] = localSettings.SelectedButton,
-                    ["icon"] = imageString
-                };
-                await Connection.SetFeedbackAsync(dkv);
-                return;
+                imageFilePath = "./Actions/ActivateAutoclicker/Click Active.png";
             }
 
-            
+            Bitmap img = ImageTools.GetBitmapFromFilePath(imageFilePath);
+            string imageString = Tools.ImageToBase64(img, true);
+            img.Dispose();
+            Dictionary<string, string> dkv = new Dictionary<string, string> {
+                ["delay"] = localSettings.DelayInMilliseconds.ToString(),
+                ["button"] = localSettings.SelectedButton,
+                ["icon"] = imageString
+            };
+            await Connection.SetFeedbackAsync(dkv);
+
         }
 
         private Task SaveSettings() {
             return Connection.SetSettingsAsync(JObject.FromObject(localSettings));
+        }
+
+        private void OnPropertyInspectorOpened(object sender, SDEventReceivedEventArgs<PropertyInspectorDidAppear> e) {
+            Connection.SetSettingsAsync(JObject.FromObject(localSettings));
         }
 
         #endregion
