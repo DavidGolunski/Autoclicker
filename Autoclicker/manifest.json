@@ -41,7 +41,7 @@
   "Icon": "Images/Click500",
   "URL": "https://TODO_ENTER_YOUR_HOMEPAGE.com",
   "Version": "1.0.0",
-  "CodePath": "com.davidgolunski.autoclicker",
+  "CodePath": "Autoclicker",
   "Category": "Autoclicker",
   "CategoryIcon": "Actions/ActivateAutoclicker/Click",
   "OS": [
