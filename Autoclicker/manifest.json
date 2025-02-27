@@ -37,7 +37,7 @@
   ],
   "Author": "David Golunski",
   "Name": "Autoclicker",
-  "Description": "A Plugin that allows you to configure and activate an autoclicker",
+  "Description": "A Plugin that allows you to configure and activate an Autoclicker.\nUse your StreamDeck to click for you!\nIncludes support for:\n - Clicking/Holding Left Mouse Button\n - Clicking/Holding Middle Mouse Button\n - Clicking/Holding Right Mouse Button\n\n - Dial Support\n - Visual indication to show which Autoclicker is active",
   "Icon": "Images/Click500",
   "URL": "https://github.com/DavidGolunski/Autoclicker",
   "Version": "1.0.0",
