@@ -16,5 +16,14 @@ If the game or program really wants to prevent autoclickers it usually will do s
 Thank you to [BarRaider](https://barraider.com/) and their [Streamdeck Tools](https://github.com/BarRaider/streamdeck-tools) which allowed quicker and easier development.
 Some Icons have been taken from [uxwing](https://uxwing.com/).
 
-If you like the plugin please consider [supporting me via PayPal](https://www.paypal.com/donate/?hosted_button_id=ZN3URG59JBRVJ).   
+If you like the plugin please consider [supporting me via PayPal](https://www.paypal.com/donate/?hosted_button_id=ZN3URG59JBRVJ) and [joining the Discord](https://discord.gg/9qMPNxRhqt).   
 This will allow me to keep the applications alive for a little bit longer :)
+
+
+## Change and Release Notes
+### Version 1.0.1
+- Added "Support" buttons to the actions PropertyInspector
+
+### Version 1.0.0
+- Implementation of __"Autoclicker Action"__ (Button and Dial)
+
