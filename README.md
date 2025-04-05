@@ -12,6 +12,11 @@ If you have a "." or a letter inside the number the program will default to the 
 Programs and games sometimes try to find out if a mouse click was a "real" mouse click or a simulated one.  
 If the game or program really wants to prevent autoclickers it usually will do so :(
 
+- __Log File:__  
+The plugin logs any issues inside the log file. You can find the log file at:  
+```%appdata%/Elgato/StreamDeck/Plugins/com.davidgolunski.autoclicker.sdPlugin/pluginlog.log```  
+If the log file does not help you further you can always ask for help on the [official Discord](https://discord.gg/9qMPNxRhqt).
+
 ## Credits and Support
 Thank you to [BarRaider](https://barraider.com/) and their [Streamdeck Tools](https://github.com/BarRaider/streamdeck-tools) which allowed quicker and easier development.
 Some Icons have been taken from [uxwing](https://uxwing.com/).
@@ -21,6 +26,9 @@ This will allow me to keep the applications alive for a little bit longer :)
 
 
 ## Change and Release Notes
+### Version 1.0.2
+- Added "Support" buttons now link to the Elgato Marketplace. Users can join the discord from the link on the marketplace.
+
 ### Version 1.0.1
 - Added "Support" buttons to the actions PropertyInspector
 
