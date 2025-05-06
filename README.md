@@ -4,6 +4,11 @@ You can simulate left, middle and right mouse button clicks with a custom delay.
 
 
 ## Troubleshooting
+- __The Action is showing a yellow triangle:__
+Antivirus programs like Windows Defender do not like programs that simulate a mouse. If you see the yellow triangle, your anti-virus-program probably already removed the program.  
+To fix this you can reinstall the plugin and in Windows Defender allow the "threat" (in Windows Defender the program was shown as "Pomal!rmf").  
+Alternatively you can try to set the plugin as an exception in your anti-virus-program, but the first option is recommended.  
+
 - __The Delay is showing "0":__  
 When setting the delay it is important that you input an integer (whole number) between 0 and 9999.   
 If you have a "." or a letter inside the number the program will default to the delay to 0
