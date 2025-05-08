@@ -26,6 +26,9 @@ This will allow me to keep the applications alive for a little bit longer :)
 
 
 ## Change and Release Notes
+### Version 1.0.3
+- Added a message to the property inspector that warns the user about potential anti-virus programs, that identify the plugin as a threat
+
 ### Version 1.0.2
 - Added "Support" buttons now link to the Elgato Marketplace. Users can join the discord from the link on the marketplace.
 
