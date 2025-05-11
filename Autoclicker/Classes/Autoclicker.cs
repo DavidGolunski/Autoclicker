@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Runtime.InteropServices;
@@ -25,30 +22,40 @@ namespace Autoclicker {
             private set => instance = value;
         }
 
+        // Task and cancellation token for controlling the click loop
+        private CancellationTokenSource cancellationTokenSource;
+
         // shows if the autoclicker is currently running
         public bool IsRunning { get => cancellationTokenSource != null; }
-        // keeps track of which action has instructed the autoclicker to start. Null value == -1
-        private int activatedActionIndex;
-        public int ActivatedActionIndex {
-            get {
-                return activatedActionIndex;
-            }
-            set {
-                activatedActionIndex = value;
-                OnStatusChanged?.Invoke(IsRunning, activatedActionIndex);
-            }
-        }
-        // event handler 
-        public event Action<bool, int> OnStatusChanged; // parameters: isRunning, activeActionIndex
+
+
+        // event handler, actions subscribe to this to get notified if something changes. They use the information to change icons
+        public event Action OnStatusChanged; // parameters: isRunning, activeActionIndex
 
 
 
         // Delay in milliseconds between clicks
         private int delay;
         public int Delay { // this was made an Mutable Instance Variable on purpose. When used in the clicker task, it will be passed by reference and not by value, meaning if the Delay is changed here, it will also be changed inside the task
-            get => delay;
-            set => delay = value;
+            get {
+                DelayMutex.WaitOne();
+                int delay = this.delay;
+                DelayMutex.ReleaseMutex();
+                return delay;
+            }
+            set {
+                DelayMutex.WaitOne();
+                if(delay == value) {
+                    DelayMutex.ReleaseMutex();
+                    return;
+                }
+                delay = value;
+                DelayMutex.ReleaseMutex();
+
+                OnStatusChanged?.Invoke();
+            }
         }
+        private readonly Mutex DelayMutex = new Mutex();
 
         // Bool to help keep track wether the button is currently being hold down
         // we have to keep the variable outside of the task, since when the task is requested to cancel it will not perform the "release" action
@@ -57,11 +64,6 @@ namespace Autoclicker {
             get => isHolding;
             set => isHolding = value;
         }
-
-        // Task and cancellation token for controlling the click loop
-        private CancellationTokenSource cancellationTokenSource;
-
-        
 
         // Import mouse event functionality from the Windows API
         [DllImport("user32.dll", SetLastError = true)]
@@ -83,35 +85,51 @@ namespace Autoclicker {
 
                 // restart the task if the selected mouse button has changed. This ensures any button that was currently used was correclty unselected
                 bool wasRunning = IsRunning;
-                int currentActivatedActionIndex = ActivatedActionIndex;
                 if(wasRunning) {
                     Stop();
                 }
                 selectedMouseButton = value;
                 if(wasRunning) {
-                    Start(currentActivatedActionIndex);
+                    Start();
                 }
 
+                OnStatusChanged?.Invoke();
             }
         }
 
         /*
          * The option of following the mouse or having a fixed positon of the clicks. 
-         * When "UseCurrentPosition" is set to false, the current Position will be saved and the clicks will not follow the mouse anymore
          */
-        private bool useCurrentPosition;
-        public bool UseCurrentPosition {
-            get => useCurrentPosition;
+        private bool allowMovement;
+        public bool AllowMovement {
+            get {
+                AllowMovementMutex.WaitOne();
+                bool allowMovement = this.allowMovement;
+                AllowMovementMutex.ReleaseMutex();
+                return allowMovement;
+            }
             set {
-                if(useCurrentPosition && !value) {
+                AllowMovementMutex.WaitOne();
+                if(allowMovement == value) {
+                    AllowMovementMutex.ReleaseMutex();
+                    return;
+                }
+
+                if(allowMovement && !value) {
                     // We're switching from dynamic to fixed position; save current position
                     if(GetCursorPos(out POINT p)) {
                         fixedClickPosition = new Point(p.X, p.Y);
                     }
                 }
-                useCurrentPosition = value;
+                allowMovement = value;
+
+                AllowMovementMutex.ReleaseMutex();
+                OnStatusChanged?.Invoke();
             }
         }
+        private readonly Mutex AllowMovementMutex = new Mutex();
+
+
         private Point fixedClickPosition;
 
         [DllImport("user32.dll")]
@@ -127,17 +145,16 @@ namespace Autoclicker {
 
 
         public Autoclicker() {
-            activatedActionIndex = -1;
-            Delay = 1;
+            delay = 1;
             SelectedButton = MouseButton.LMB;
-            UseCurrentPosition = true;
+            allowMovement = true;
             cancellationTokenSource = null;
         }
 
         /*
          * Task Functions
          */
-        public void Start(int activatedActionIndex) {
+        public void Start() {
             if(IsRunning) {
                 return;
             }
@@ -145,7 +162,7 @@ namespace Autoclicker {
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = cancellationTokenSource.Token;
 
-            if(!UseCurrentPosition) {
+            if(!AllowMovement) {
                 if(GetCursorPos(out POINT p)) {
                     fixedClickPosition = new Point(p.X, p.Y);
                 }
@@ -154,7 +171,8 @@ namespace Autoclicker {
             Task.Run(async () => {
                 
                 while(!token.IsCancellationRequested) {
-                    if(Delay > 0) {
+                    int delay = Delay;
+                    if(delay > 0) {
                         // If we were previously holding, release the button
                         if(IsHolding) {
                             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
@@ -162,9 +180,9 @@ namespace Autoclicker {
                         }
 
                         PerformClick(); // Normal clicking behavior
-                        await Task.Delay(Delay, token);
+                        await Task.Delay(delay, token);
                     }
-                    else if(Delay == 0 && !IsHolding) {
+                    else if(delay == 0 && !IsHolding) {
                         // If delay is 0 and we're not already holding, press the button down
                         PressButton();
                         IsHolding = true;
@@ -177,9 +195,8 @@ namespace Autoclicker {
 
             }, token);
 
-            this.ActivatedActionIndex = activatedActionIndex; // also calls the OnStatusChanged function
-            Logger.Instance.LogMessage(TracingLevel.INFO, "Autoclicker Started. Button: " + SelectedButton.ToString());
-            
+            OnStatusChanged?.Invoke();
+            Logger.Instance.LogMessage(TracingLevel.INFO, "Autoclicker started. Button: " + SelectedButton.ToString() + " Delay: " + Delay.ToString() + " AllowMovement: " + AllowMovement.ToString());
         }
 
         public void Stop() {
@@ -193,25 +210,18 @@ namespace Autoclicker {
 
 
             // Ensure button is released when stopping and the button was being held down before
-            if(IsHolding) {
+            if(IsHolding) 
                 ReleaseButton();
-            }
 
-            this.ActivatedActionIndex = -1; // also calls the OnStatusChanged function
-
-            Logger.Instance.LogMessage(TracingLevel.INFO, "Autoclicker stopped. Button: " + SelectedButton.ToString());
+            OnStatusChanged?.Invoke();
+            Logger.Instance.LogMessage(TracingLevel.INFO, "Autoclicker stopped. Button: " + SelectedButton.ToString() + " Delay: " + Delay.ToString() + " AllowMovement: " + AllowMovement.ToString());
         }
 
         /*
          * Click functions
          */
-        private void PressButton() {
-            mouse_event(GetButtonDownFlag(), 0, 0, 0, UIntPtr.Zero);
-        }
-
-        private void ReleaseButton() {
-            mouse_event(GetButtonUpFlag(), 0, 0, 0, UIntPtr.Zero);
-        }
+        private void PressButton() { mouse_event(GetButtonDownFlag(), 0, 0, 0, UIntPtr.Zero); }
+        private void ReleaseButton() { mouse_event(GetButtonUpFlag(), 0, 0, 0, UIntPtr.Zero); }
 
         private uint GetButtonDownFlag() {
             return SelectedButton switch {
@@ -232,32 +242,13 @@ namespace Autoclicker {
         }
 
         private void PerformClick() {
-            // when following the mouse
-            if(UseCurrentPosition) {
-                // Simulate mouse click
-                PressButton();
-                Task.Delay(1).Wait();
-                ReleaseButton();
-                return;
-            }
+            if(!AllowMovement)
+                SetCursorPos(fixedClickPosition.X, fixedClickPosition.Y);
 
-            // when not following the mouse
-            // Save current position
-            GetCursorPos(out POINT currentPos);
-
-            //Logger.Instance.LogMessage(TracingLevel.DEBUG, "Current Position: " + currentPos.X + " " + currentPos.Y);
-
-            // Move to fixed position
-            SetCursorPos(fixedClickPosition.X, fixedClickPosition.Y);
-            Task.Delay(2).Wait(); // Brief delay to ensure mouse is in place
-
+            // Simulate mouse click
             PressButton();
             Task.Delay(1).Wait();
             ReleaseButton();
-
-            // set cursor back to the position it was at before
-            SetCursorPos(currentPos.X, currentPos.Y);
         }
     }
-
 }

@@ -19,20 +19,20 @@
         <div class="sdpi-item">
             <div class="sdpi-item-label">Description</div>
             <div class="sdpi-item-value">
-                Sets the delay of the Autoclicker. A delay of 0 is the same as "holding" the button down. (Holding only works with the "Follow Mouse" position selected).
+                Sets the delay of the Autoclicker. A delay of 0 is the same as "holding" the button down.
             </div>
         </div>
         <br/>
         <div class="sdpi-item">
-            <div class="sdpi-item-label">Position</div>
-            <select class="sdpi-item-value sdProperty" setting="positionSetting" id="positionSetting" oninput="setSettings()">
-                <option value="follow">Follow Mouse</option>
-                <option value="fixed">Lock in current position</option>
+            <div class="sdpi-item-label">Mouse</div>
+            <select class="sdpi-item-value sdProperty" setting="allowMovementString" id="allowMovementString" oninput="setSettings()">
+                <option value="allowMovement">Allow Mouse Movement</option>
+                <option value="dontAllowMovement">Lock Mouse in Place</option>
             </select>
         </div>
         <div class="sdpi-item">
             <div class="sdpi-item-label">Button</div>
-            <select class="sdpi-item-value sdProperty" setting="selectedButton" id="selectedButton" oninput="setSettings()">
+            <select class="sdpi-item-value sdProperty" setting="selectedButtonString" id="selectedButtonString" oninput="setSettings()">
                 <option value="LMB">Left Mouse Button</option>
                 <option value="MMB">Middle Mouse Button</option>
                 <option value="RMB">Right Mouse Button</option>
@@ -55,7 +55,7 @@
             <div class="sdpi-item-value sdProperty sdHTML" style="font-size: 11px;">
                 Anti-virus programs don't like programs that simulate a mouse.<br/>
                 If you see a <b>Yellow Triangle</b> when pressing the button, that probably means that your anti-virus already removed the plugin.<br/>
-                You might need to "allow the threat" or "add an exception" in your anti-virus program for the plugin to work. 
+                You might need to "allow the threat" in the settings of your anti-virus program for the plugin to work. 
             </div>
         </div>
         <br />

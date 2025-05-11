@@ -2,28 +2,15 @@
 using BarRaider.SdTools.Events;
 using BarRaider.SdTools.Payloads;
 using BarRaider.SdTools.Wrappers;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Autoclicker {
 
     [PluginActionId("com.davidgolunski.autoclicker.autoclickeraction")]
     public class AutoclickerAction : KeyAndEncoderBase {
-
-        // this int is used to identify the autoclicker action.
-        // everytime this class gets instantated it takes the current number and increments the counter by 1
-        private static int indexCounter = 0;
-
-        private readonly int index;
-
 
         // to distinguish between a dial press and a "rotate press"
         private bool dialWasRotated = false;
@@ -32,31 +19,25 @@ namespace Autoclicker {
 
 
         public AutoclickerAction(SDConnection connection, InitialPayload payload) : base(connection, payload) {
-            this.index = indexCounter++;
-
             if(payload.Settings == null || payload.Settings.Count == 0) {
                 this.localSettings = new AutoclickerSettings();
                 SaveSettings();
             }
             else {
                 this.localSettings = payload.Settings.ToObject<AutoclickerSettings>();
-
-                // if the selected Mouse Button is invalid, then set it to "LMB"
-                if(!(localSettings.SelectedButton == "LMB" || localSettings.SelectedButton == "MMB" || localSettings.SelectedButton == "RMB")) {
-                    localSettings.SelectedButton = "LMB";
-                }
-
             }
+
 
             Autoclicker.Instance.OnStatusChanged += UpdateVisuals;
             Connection.OnPropertyInspectorDidAppear += OnPropertyInspectorOpened;
-            UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.Delay);
+            UpdateVisuals();
         }
 
         public override void Dispose() {
+            /*
             if(Autoclicker.Instance.IsRunning && Autoclicker.Instance.ActivatedActionIndex == index) {
                 Autoclicker.Instance.Stop();
-            }
+            }*/
 
             Autoclicker.Instance.OnStatusChanged -= UpdateVisuals;
             Connection.OnPropertyInspectorDidAppear -= OnPropertyInspectorOpened;
@@ -72,6 +53,8 @@ namespace Autoclicker {
 
 
         public override void DialRotate(DialRotatePayload payload) {
+            bool wasActive = IsActive();
+
             dialWasRotated = true;
 
             int stepSize = payload.IsDialPressed ? 10 : 1;
@@ -88,12 +71,11 @@ namespace Autoclicker {
 
             localSettings.DelayString = delay.ToString();
 
-            if(Autoclicker.Instance.IsRunning && Autoclicker.Instance.ActivatedActionIndex == index) {
+            if(Autoclicker.Instance.IsRunning && wasActive) {
                 Autoclicker.Instance.Delay = delay;
             }
 
-            UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.ActivatedActionIndex);
-         
+            UpdateVisuals();
             SaveSettings();
         }
 
@@ -116,26 +98,18 @@ namespace Autoclicker {
 
 
         public override void ReceivedSettings(ReceivedSettingsPayload payload) {
+            bool wasActive = IsActive();
+
             Tools.AutoPopulateSettings(localSettings, payload.Settings);
 
-            // if the selected Mouse Button is invalid, then set it to "LMB"
-            if(!(localSettings.SelectedButton == "LMB" || localSettings.SelectedButton == "MMB" || localSettings.SelectedButton == "RMB")) {
-                localSettings.SelectedButton = "LMB";
-            }
 
-            if(Autoclicker.Instance.IsRunning && Autoclicker.Instance.ActivatedActionIndex == index) {
+            if(Autoclicker.Instance.IsRunning && wasActive) {
                 Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
-                MouseButton selectedMouseButton = localSettings.SelectedButton switch {
-                    "MMB" => MouseButton.MMB,
-                    "RMB" => MouseButton.RMB,
-                    _ => MouseButton.LMB,
-                };
-                Autoclicker.Instance.SelectedButton = selectedMouseButton;
-                Autoclicker.Instance.UseCurrentPosition = localSettings.PositionSettings == "follow";
+                Autoclicker.Instance.SelectedButton = localSettings.SelectedButton;
+                Autoclicker.Instance.AllowMovement = localSettings.AllowMovement;
             }
 
-
-            UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.ActivatedActionIndex);
+            UpdateVisuals();
 
             SaveSettings();
         }
@@ -144,45 +118,45 @@ namespace Autoclicker {
 
         #region Private Methods
 
-        private void ToggleAutoclicker() {
-            MouseButton selectedMouseButton = localSettings.SelectedButton switch {
-                "MMB" => MouseButton.MMB,
-                "RMB" => MouseButton.RMB,
-                _ => MouseButton.LMB,
-            };
+        // checks if this actions settings are the same as the current Autoclicker settings
+        private bool IsActive() {
+            return localSettings.DelayInMilliseconds == Autoclicker.Instance.Delay
+                && localSettings.AllowMovement == Autoclicker.Instance.AllowMovement
+                && localSettings.SelectedButton == Autoclicker.Instance.SelectedButton;
+        }
 
+        private void ToggleAutoclicker() {
             // if autoclicker is not running, start it
             if(!Autoclicker.Instance.IsRunning) {
                 Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
-                Autoclicker.Instance.SelectedButton = selectedMouseButton;
-                Autoclicker.Instance.UseCurrentPosition = localSettings.PositionSettings == "follow";
-                Autoclicker.Instance.Start(this.index);
+                Autoclicker.Instance.SelectedButton = localSettings.SelectedButton;
+                Autoclicker.Instance.AllowMovement = localSettings.AllowMovement;
+                Autoclicker.Instance.Start();
                 return;
             }
 
             // if autoclicker is running and the autoclicker was activated by this action, then stop the autoclicker
-            if(Autoclicker.Instance.ActivatedActionIndex == this.index) {
+            if(IsActive()) {
                 Autoclicker.Instance.Stop();
                 return;
             }
 
             // Autoclicker was already running, but it was started by a different action. Update the delay and activationIndex
             Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
-            Autoclicker.Instance.ActivatedActionIndex = this.index;
-            Autoclicker.Instance.SelectedButton = selectedMouseButton;
-            Autoclicker.Instance.UseCurrentPosition = localSettings.PositionSettings == "follow";
+            Autoclicker.Instance.SelectedButton = localSettings.SelectedButton;
+            Autoclicker.Instance.AllowMovement = localSettings.AllowMovement;
 
         }
 
         // this method is subsribed to the Autoclicker Status Changed event and gets called automatically
-        private async void UpdateVisuals(bool isRunning, int activationIndex) {
+        private async void UpdateVisuals() {
             string imageFilePath;
 
-            if(!isRunning) {
+            if(!Autoclicker.Instance.IsRunning) {
                 Connection.SetStateAsync(0).GetAwaiter().GetResult();
                 imageFilePath = "./Actions/ActivateAutoclicker/Click.png";
             }
-            else if(this.index == activationIndex) {
+            else if(IsActive()) {
                 Connection.SetStateAsync(2).GetAwaiter().GetResult();
                 imageFilePath = "./Actions/ActivateAutoclicker/Click Selected Active.png";
             }
@@ -196,11 +170,10 @@ namespace Autoclicker {
             img.Dispose();
             Dictionary<string, string> dkv = new Dictionary<string, string> {
                 ["delay"] = localSettings.DelayInMilliseconds.ToString(),
-                ["button"] = localSettings.SelectedButton,
+                ["button"] = localSettings.SelectedButtonString,
                 ["icon"] = imageString
             };
             await Connection.SetFeedbackAsync(dkv);
-
         }
 
         private Task SaveSettings() {

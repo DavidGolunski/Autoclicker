@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Autoclicker {
 
@@ -21,16 +16,28 @@ namespace Autoclicker {
             get => DelayInMilliseconds.ToString() + " ms"; 
         }
 
-        [JsonProperty(PropertyName = "selectedButton")]
-        public string SelectedButton { get; set; }
+        [JsonProperty(PropertyName = "selectedButtonString")]
+        public string SelectedButtonString { get; set; }
 
-        [JsonProperty(PropertyName = "positionSetting")]
-        public string PositionSettings { get; set; } // can either be "follow" or "fixed"
+        public MouseButton SelectedButton {
+            get => SelectedButtonString switch {
+                "MMB" => MouseButton.MMB,
+                "RMB" => MouseButton.RMB,
+                _ => MouseButton.LMB,
+            };
+        }
+
+        [JsonProperty(PropertyName = "allowMovementString")]
+        public string AllowMovementString { get; set; } // can either be "allowMovement" or "dontAllowMovement"
+
+        public bool AllowMovement {
+            get => AllowMovementString == "allowMovement";
+        }
 
         public AutoclickerSettings() {
             DelayString = "1";
-            SelectedButton = "LMB";
-            PositionSettings = "follow";
+            SelectedButtonString = "LMB";
+            AllowMovementString = "allowMovement";
         }
     }
 }

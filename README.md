@@ -31,6 +31,11 @@ This will allow me to keep the applications alive for a little bit longer :)
 
 
 ## Change and Release Notes
+### Version 1.1
+- Improved stability
+- You can now choose to lock the mouse in place. This will prevent unwanted mouse movement when you are AFK
+- You can now change pages and profiles without the Autoclicker turning off
+
 ### Version 1.0.3
 - Added a message to the property inspector that warns the user about potential anti-virus programs, that identify the plugin as a threat
 
