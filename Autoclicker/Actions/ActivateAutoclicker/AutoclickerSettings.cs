@@ -24,9 +24,13 @@ namespace Autoclicker {
         [JsonProperty(PropertyName = "selectedButton")]
         public string SelectedButton { get; set; }
 
+        [JsonProperty(PropertyName = "positionSetting")]
+        public string PositionSettings { get; set; } // can either be "follow" or "fixed"
+
         public AutoclickerSettings() {
             DelayString = "1";
             SelectedButton = "LMB";
+            PositionSettings = "follow";
         }
     }
 }

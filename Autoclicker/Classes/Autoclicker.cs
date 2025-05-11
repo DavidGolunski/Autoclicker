@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Runtime.InteropServices;
 using BarRaider.SdTools;
+using System.Drawing;
 
 
 namespace Autoclicker {
@@ -34,9 +35,11 @@ namespace Autoclicker {
             }
             set {
                 activatedActionIndex = value;
-                OnStatusChanged(IsRunning, activatedActionIndex);
+                OnStatusChanged?.Invoke(IsRunning, activatedActionIndex);
             }
         }
+        // event handler 
+        public event Action<bool, int> OnStatusChanged; // parameters: isRunning, activeActionIndex
 
 
 
@@ -58,10 +61,7 @@ namespace Autoclicker {
         // Task and cancellation token for controlling the click loop
         private CancellationTokenSource cancellationTokenSource;
 
-
-        // event handler 
-        public delegate void StatusChangedHandler(bool isRunning, int delay);
-        private event StatusChangedHandler StatusChanged;
+        
 
         // Import mouse event functionality from the Windows API
         [DllImport("user32.dll", SetLastError = true)]
@@ -95,30 +95,44 @@ namespace Autoclicker {
             }
         }
 
+        /*
+         * The option of following the mouse or having a fixed positon of the clicks. 
+         * When "UseCurrentPosition" is set to false, the current Position will be saved and the clicks will not follow the mouse anymore
+         */
+        private bool useCurrentPosition;
+        public bool UseCurrentPosition {
+            get => useCurrentPosition;
+            set {
+                if(useCurrentPosition && !value) {
+                    // We're switching from dynamic to fixed position; save current position
+                    if(GetCursorPos(out POINT p)) {
+                        fixedClickPosition = new Point(p.X, p.Y);
+                    }
+                }
+                useCurrentPosition = value;
+            }
+        }
+        private Point fixedClickPosition;
+
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out POINT lpPoint);
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct POINT {
+            public int X;
+            public int Y;
+        }
+
 
         public Autoclicker() {
             activatedActionIndex = -1;
             Delay = 1;
             SelectedButton = MouseButton.LMB;
+            UseCurrentPosition = true;
             cancellationTokenSource = null;
         }
-
-
-        /*
-         * Event Listener functions
-         */
-        public void AddStatusChangedListener(StatusChangedHandler listener) {
-            StatusChanged += listener;
-        }
-
-        public void RemoveStatusChangedListener(StatusChangedHandler listener) {
-            StatusChanged -= listener;
-        }
-
-        protected void OnStatusChanged(bool isRunning, int activatedActionIndex) {
-            StatusChanged?.Invoke(isRunning, activatedActionIndex);
-        }
-
 
         /*
          * Task Functions
@@ -131,8 +145,14 @@ namespace Autoclicker {
             cancellationTokenSource = new CancellationTokenSource();
             CancellationToken token = cancellationTokenSource.Token;
 
-            Task.Run(async () =>
-            {
+            if(!UseCurrentPosition) {
+                if(GetCursorPos(out POINT p)) {
+                    fixedClickPosition = new Point(p.X, p.Y);
+                }
+            }
+
+            Task.Run(async () => {
+                
                 while(!token.IsCancellationRequested) {
                     if(Delay > 0) {
                         // If we were previously holding, release the button
@@ -166,6 +186,7 @@ namespace Autoclicker {
             if(!IsRunning) {
                 return;
             }
+
             cancellationTokenSource.Cancel();
             cancellationTokenSource.Dispose();
             cancellationTokenSource = null;
@@ -211,10 +232,31 @@ namespace Autoclicker {
         }
 
         private void PerformClick() {
-            // Simulate mouse left click
+            // when following the mouse
+            if(UseCurrentPosition) {
+                // Simulate mouse click
+                PressButton();
+                Task.Delay(1).Wait();
+                ReleaseButton();
+                return;
+            }
+
+            // when not following the mouse
+            // Save current position
+            GetCursorPos(out POINT currentPos);
+
+            //Logger.Instance.LogMessage(TracingLevel.DEBUG, "Current Position: " + currentPos.X + " " + currentPos.Y);
+
+            // Move to fixed position
+            SetCursorPos(fixedClickPosition.X, fixedClickPosition.Y);
+            Task.Delay(2).Wait(); // Brief delay to ensure mouse is in place
+
             PressButton();
             Task.Delay(1).Wait();
             ReleaseButton();
+
+            // set cursor back to the position it was at before
+            SetCursorPos(currentPos.X, currentPos.Y);
         }
     }
 

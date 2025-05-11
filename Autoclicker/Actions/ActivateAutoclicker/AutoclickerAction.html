@@ -19,10 +19,17 @@
         <div class="sdpi-item">
             <div class="sdpi-item-label">Description</div>
             <div class="sdpi-item-value">
-                Sets the delay of the Autoclicker. A delay of 0 is the same as "holding" the button down
+                Sets the delay of the Autoclicker. A delay of 0 is the same as "holding" the button down. (Holding only works with the "Follow Mouse" position selected).
             </div>
         </div>
-        <br />
+        <br/>
+        <div class="sdpi-item">
+            <div class="sdpi-item-label">Position</div>
+            <select class="sdpi-item-value sdProperty" setting="positionSetting" id="positionSetting" oninput="setSettings()">
+                <option value="follow">Follow Mouse</option>
+                <option value="fixed">Lock in current position</option>
+            </select>
+        </div>
         <div class="sdpi-item">
             <div class="sdpi-item-label">Button</div>
             <select class="sdpi-item-value sdProperty" setting="selectedButton" id="selectedButton" oninput="setSettings()">

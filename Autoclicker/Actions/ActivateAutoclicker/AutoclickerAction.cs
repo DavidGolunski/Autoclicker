@@ -30,8 +30,6 @@ namespace Autoclicker {
 
         private readonly AutoclickerSettings localSettings;
 
-        
-
 
         public AutoclickerAction(SDConnection connection, InitialPayload payload) : base(connection, payload) {
             this.index = indexCounter++;
@@ -50,7 +48,7 @@ namespace Autoclicker {
 
             }
 
-            Autoclicker.Instance.AddStatusChangedListener(UpdateVisuals);
+            Autoclicker.Instance.OnStatusChanged += UpdateVisuals;
             Connection.OnPropertyInspectorDidAppear += OnPropertyInspectorOpened;
             UpdateVisuals(Autoclicker.Instance.IsRunning, Autoclicker.Instance.Delay);
         }
@@ -60,7 +58,7 @@ namespace Autoclicker {
                 Autoclicker.Instance.Stop();
             }
 
-            Autoclicker.Instance.RemoveStatusChangedListener(UpdateVisuals);
+            Autoclicker.Instance.OnStatusChanged -= UpdateVisuals;
             Connection.OnPropertyInspectorDidAppear -= OnPropertyInspectorOpened;
         }
 
@@ -133,6 +131,7 @@ namespace Autoclicker {
                     _ => MouseButton.LMB,
                 };
                 Autoclicker.Instance.SelectedButton = selectedMouseButton;
+                Autoclicker.Instance.UseCurrentPosition = localSettings.PositionSettings == "follow";
             }
 
 
@@ -156,6 +155,7 @@ namespace Autoclicker {
             if(!Autoclicker.Instance.IsRunning) {
                 Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
                 Autoclicker.Instance.SelectedButton = selectedMouseButton;
+                Autoclicker.Instance.UseCurrentPosition = localSettings.PositionSettings == "follow";
                 Autoclicker.Instance.Start(this.index);
                 return;
             }
@@ -170,7 +170,8 @@ namespace Autoclicker {
             Autoclicker.Instance.Delay = localSettings.DelayInMilliseconds;
             Autoclicker.Instance.ActivatedActionIndex = this.index;
             Autoclicker.Instance.SelectedButton = selectedMouseButton;
-            
+            Autoclicker.Instance.UseCurrentPosition = localSettings.PositionSettings == "follow";
+
         }
 
         // this method is subsribed to the Autoclicker Status Changed event and gets called automatically
